@@ -72,7 +72,7 @@ button:hover {
   font-weight: bold;
   text-decoration: none;
   color: #edddc5;
-  background-color: rgba(43, 92, 107, 0.85); /* fundo azul escuro com transparência */
+  background-color: rgba(43, 92, 107, 0.8); /* fundo azul escuro com transparência */
   border: 2px solid #D8A03A;
   border-radius: 10px;
   box-shadow: 0 0 10px #2B5C6B, 0 0 20px #2B5C6B;
@@ -182,8 +182,8 @@ button:hover {
 .horario-funcionamento {
   margin-top: 30px;
   text-align: center;
-  background-color: rgba(43, 92, 107, 0.7); /* azul escuro com transparência */
-  color: #F4EFE5; /* texto claro */
+  background-color: rgba(43, 92, 107, 0.8); /* azul escuro com transparência */
+  color: #eddec5; /* texto claro */
   padding: 20px;
   border-radius: 10px;
   width: 90%;
@@ -196,7 +196,7 @@ button:hover {
 .horario-funcionamento h3 {
   font-size: 1.2em;
   margin-bottom: 8px;
-  color: #F4EFE5;
+  color: #eddec5;
 }
 
 .horario-funcionamento p {
@@ -516,6 +516,7 @@ body.modal-aberto {
   color: #eddec5;
   font-family: Arial, sans-serif;
   font-size: 14px;
+  border-radius: 10px;
 }
 
 .rodape-criador img {
