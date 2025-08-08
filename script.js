@@ -544,7 +544,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 	  
 	  let mensagem = `📦 *Novo Pedido - Bar do Juca*\n\n`;
-      mensagem += `*Cliente:* ${nome}\n`
+      mensagem += `🧍 *Cliente:* ${nome}\n\n`
 	  mensagem += `📍 *Endereço:*\n${enderecoCompleto} - ${bairro}, ${cidade}\n\n📝 *Itens:*\n`;
 
 	  let algumItemSelecionado = false;
@@ -614,3 +614,4 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
   }
 });
+
