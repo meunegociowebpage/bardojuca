@@ -505,3 +505,26 @@ body.modal-aberto {
 .botao-opcao:hover {
   background-color: #e2e2e2;
 }
+
+.rodape-criador {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 20px;
+  background-color: rgba(43, 92, 107, 0.8);
+  color: #eddec5;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.rodape-criador img {
+  height: 40px;
+  width: 40px;
+  object-fit: contain;
+}
+
+.info-criador {
+  text-align: left;
+  line-height: 1.2;
+}
