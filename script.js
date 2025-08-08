@@ -542,7 +542,10 @@ document.addEventListener("DOMContentLoaded", function () {
       if (complemento) {
         enderecoCompleto += `, ${complemento}`;
       }
-      let mensagem = `Olá, meu nome é ${nome} e gostaria de fazer um pedido:\n\n📍 *Endereço:*\n${enderecoCompleto} - ${bairro}, ${cidade}\n\n📝 *Itens:*\n`;
+	  
+	  let mensagem = `📦 *Novo Pedido - Bar do Juca*\n\n`;
+      mensagem += `*Cliente:* ${nome}\n`
+	  mensagem += `📍 *Endereço:*\n${enderecoCompleto} - ${bairro}, ${cidade}\n\n📝 *Itens:*\n`;
 
 	  let algumItemSelecionado = false;
 	  let index = 0;
@@ -599,13 +602,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	  mensagem += `\n\n🚚 *Taxa de entrega (${bairro}):* R$ ${valorEntrega.toFixed(2).replace(".", ",")}`;
 	  mensagem += `\n💵 *Total geral:* R$ ${total.toFixed(2).replace(".", ",")}`;
 
+	  // ======= Adiciona link do Google Maps =======
+	  const enderecoMaps = `${rua}, ${numero}${complemento ? ', ' + complemento : ''}, ${bairro}, ${cidade}`;
+	  const linkMaps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(enderecoMaps)}`;
+	  mensagem += `\n\n🗺️ *Localização no Google Maps:* ${linkMaps}\n##########\n`;
+      // ============================================
+
 	  const numeroWhatsApp = "5524999787233";
 	  const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
 	  window.open(url, "_blank");
 	});
   }
 });
-
-
-
-
