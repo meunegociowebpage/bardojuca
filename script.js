@@ -547,7 +547,7 @@ document.addEventListener("DOMContentLoaded", function () {
       mensagem += `👤 *Cliente:* ${nome}\n\n`
 	  mensagem += `📍 *Endereço:*\n${enderecoCompleto} - ${bairro}, ${cidade}\n\n`;
 	  mensagem += `📝 *Itens:*\n`;
-
+	  
 	  let algumItemSelecionado = false;
 	  let index = 0;
 	  let total = 0;
@@ -598,10 +598,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	  // Calcular e somar valor da entrega
 	  const valorEntrega = valorEntregaPorBairro[bairro] || 0;
-	  total += valorEntrega;
+	  const totalPedidoSemEntrega = total;
+	  const totalGeral = totalPedidoSemEntrega + valorEntrega;
 
-	  mensagem += `\n\n🚚 *Taxa de entrega (${bairro}):* R$ ${valorEntrega.toFixed(2).replace(".", ",")}`;
-	  mensagem += `\n💵 *Total geral:* R$ ${total.toFixed(2).replace(".", ",")}`;
+	  mensagem += `\n\n💰 *Resumo do Pedido:*`;
+	  mensagem += `\n🧾 *Valor Pedido:* R$ ${totalPedidoSemEntrega.toFixed(2).replace(".", ",")}`;
+	  mensagem += `\n🚚 *Taxa Entrega:* R$ ${valorEntrega.toFixed(2).replace(".", ",")}`;
+	  mensagem += `\n💵 *Valor Total:* R$ ${totalGeral.toFixed(2).replace(".", ",")}`;
 
 	  // ======= Adiciona link do Google Maps =======
 	  const enderecoMaps = `${rua}, ${numero}${complemento ? ', ' + complemento : ''}, ${bairro}, ${cidade}`;
@@ -615,5 +618,3 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
   }
 });
-
-
