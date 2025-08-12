@@ -425,7 +425,7 @@ function abrirCardapioPedido() {
       const detalhes = detalhesPratos[item.nome];
       if (detalhes) {
         html += `<div id="detalhes-${index}" class="detalhes-prato" style="display: none;">`;
-        
+
         if (detalhes.opcoes) {
           html += `<div><strong>Como deseja o preparo?</strong>
             <div class="grupo-opcoes" data-grupo="opcao-${index}">`;
