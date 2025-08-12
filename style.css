@@ -378,7 +378,6 @@ body.modal-aberto {
   top: 50%;
   transform: translateY(-50%);
   position: relative;
-  overflow: hidden;
 }
 
 .conteudo-scroll {
@@ -404,16 +403,25 @@ body.modal-aberto {
 }
 
 .titulo-categoria {
-  background-color: #2B5C6B; /* azul escuro */
-  color: #F4EFE5; /* bege claro */
+  background-color: #2B5C6B;
+  color: #F4EFE5;
   padding: 10px 15px;
   border-radius: 8px;
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 0;
   font-size: 1.1em;
   font-weight: bold;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
+
+.titulo-categoria:hover {
+  background-color: #1e404d;
+}
+
 
 .detalhes-prato > div {
   margin-top: 12px;
@@ -488,23 +496,29 @@ body.modal-aberto {
   color: #2B5C6B;
   border-radius: 6px;
   cursor: pointer;
-  /* remove a transição para mudar instantaneamente */
-  transition: none;
   font-size: 0.95em;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
+.botao-opcao:hover {
+  background-color: #2B5C6B;
+  color: #fff;
+  border-color: #2B5C6B;
+}
+
+/* Estado selecionado sempre azul */
 .botao-opcao.selecionado {
+  background-color: #2B5C6B;
+  color: #fff;
+  border-color: #2B5C6B;
+}
+
+/* Mesmo no hover, manter azul se estiver selecionado */
+.botao-opcao.selecionado:hover {
   background-color: #2B5C6B;
   color: #fff;
 }
 
-.botao-opcao:focus {
-  outline: none;
-}
-
-.botao-opcao:hover {
-  background-color: #e2e2e2;
-}
 
 .rodape-criador {
   display: flex;
