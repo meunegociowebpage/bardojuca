@@ -387,79 +387,86 @@ function abrirCardapioPedido() {
   let index = 0;
 
   for (const categoria in itensCardapio) {
-	const titulo = document.createElement("h3");
-	titulo.className = "titulo-categoria";
-	titulo.textContent = categoria;
-	lista.appendChild(titulo);
-	
+    // Botão da categoria
+    const titulo = document.createElement("button");
+    titulo.className = "titulo-categoria";
+    titulo.textContent = categoria;
+    titulo.type = "button";
+
+    // Container que vai guardar os itens da categoria
+    const divCategoria = document.createElement("div");
+    divCategoria.className = "categoria-container";
+    divCategoria.style.display = "none"; // começa fechado
+
+    // descrição especial para Caldeirada
     if (categoria === "Caldeirada de Frutos do Mar") {
       const descricao = document.createElement("p");
       descricao.style.fontSize = "0.95em";
-      descricao.style.marginTop = "-8px";
-      descricao.style.marginBottom = "12px";
+      descricao.style.margin = "-8px 0 12px 0";
       descricao.style.color = "#2B5C6B";
       descricao.innerText = "(peixe, polvo, lula, camarão e mexilhão)";
-      lista.appendChild(descricao);
+      divCategoria.appendChild(descricao);
     }
 
+    // Adiciona os itens da categoria
     itensCardapio[categoria].forEach(item => {
       const div = document.createElement("div");
       div.className = "item-pedido";
 
-	let html = `
-	  <span>${item.nome} - R$${item.preco}</span>
-	  <div class="controle-quantidade">
-		<button onclick="alterarQtd(${index}, -1)">-</button>
-		<span id="qtd-${index}">0</span>
-		<button onclick="alterarQtd(${index}, 1)">+</button>
-	  </div>
-	`;
+      let html = `
+        <span>${item.nome} - R$${item.preco}</span>
+        <div class="controle-quantidade">
+          <button onclick="alterarQtd(${index}, -1)">-</button>
+          <span id="qtd-${index}">0</span>
+          <button onclick="alterarQtd(${index}, 1)">+</button>
+        </div>
+      `;
 
-	const detalhes = detalhesPratos[item.nome];
-	if (detalhes) {
-	  html += `<div id="detalhes-${index}" class="detalhes-prato" style="display: none;">`;
-	  
-	  if (detalhes.opcoes) {
-		html += `<div style="margin-bottom: 5px;">
-          <strong>Como deseja o preparo?</strong>
-          <div class="grupo-opcoes" data-grupo="opcao-${index}">`;
+      const detalhes = detalhesPratos[item.nome];
+      if (detalhes) {
+        html += `<div id="detalhes-${index}" class="detalhes-prato" style="display: none;">`;
+        
+        if (detalhes.opcoes) {
+          html += `<div><strong>Como deseja o preparo?</strong>
+            <div class="grupo-opcoes" data-grupo="opcao-${index}">`;
+          detalhes.opcoes.forEach(op => {
+            html += `<button type="button" class="botao-opcao" onclick="selecionarOpcao(this, 'opcao-${index}')">${op}</button>`;
+          });
+          html += `</div></div>`;
+        }
 
-        detalhes.opcoes.forEach((op) => {
-          html += `<button type="button" class="botao-opcao" onclick="selecionarOpcao(this, 'opcao-${index}')">${op}</button>`;
-        });
+        if (detalhes.acompanhamentos) {
+          html += `<div><strong>Acompanhamentos:</strong><ul>`;
+          detalhes.acompanhamentos.forEach(acc => {
+            html += `<li>${acc}</li>`;
+          });
+          html += `</ul></div>`;
+        }
 
-        html += `</div></div>`;
+        if (detalhes.escolhaUnica) {
+          html += `<div><strong>Escolha 1:</strong>
+            <div class="grupo-opcoes" data-grupo="acompExtra-${index}">`;
+          detalhes.escolhaUnica.forEach(op => {
+            html += `<button type="button" class="botao-opcao" onclick="selecionarOpcao(this, 'acompExtra-${index}')">${op}</button>`;
+          });
+          html += `</div></div>`;
+        }
 
-	  }
+        html += `</div>`; // fecha div de detalhes
+      }
 
-	  if (detalhes.acompanhamentos) {
-		html += `<div style="margin-top: 8px;"><strong>Acompanhamentos:</strong><ul style="margin: 5px 0;">`;
-		detalhes.acompanhamentos.forEach(acc => {
-		  html += `<li>${acc}</li>`;
-		});
-		html += `</ul></div>`;
-	  }
-
-	  if (detalhes.escolhaUnica) {
-		html += `<div style="margin-top: 8px;">
-          <strong>Escolha 1:</strong>
-          <div class="grupo-opcoes" data-grupo="acompExtra-${index}">`;
-
-        detalhes.escolhaUnica.forEach((op) => {
-          html += `<button type="button" class="botao-opcao" onclick="selecionarOpcao(this, 'acompExtra-${index}')">${op}</button>`;
-        });
-
-        html += `</div></div>`;
-	  }
-
-	  html += `</div>`; // fecha div de detalhes
-	}
-
-	div.innerHTML = html;
-
-      lista.appendChild(div);
+      div.innerHTML = html;
+      divCategoria.appendChild(div);
       index++;
     });
+
+    // Clique para expandir/recolher
+    titulo.addEventListener("click", () => {
+      divCategoria.style.display = divCategoria.style.display === "none" ? "block" : "none";
+    });
+
+    lista.appendChild(titulo);
+    lista.appendChild(divCategoria);
   }
 
   document.getElementById("modalCardapioPedido").style.display = "block";
@@ -467,6 +474,7 @@ function abrirCardapioPedido() {
   document.getElementById("bairro").addEventListener("change", atualizarTotal);
   atualizarTotal(); // mostra o total inicial (R$ 0,00)
 }
+
 
 function fecharCardapioPedido() {
   document.getElementById("modalCardapioPedido").style.display = "none";
