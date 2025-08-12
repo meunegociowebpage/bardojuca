@@ -30,8 +30,10 @@
 		<button class="botao-link" onclick="abrirModalPedido()">Faça seu Pedido pelo WhatsApp</button>
 	    <div id="modalPedido" class="modal">
 			<div class="modal-content modal-pedido">
-				<span class="fechar" onclick="fecharCardapioPedido()">&times;</span>
-				<h2>Seus Dados</h2>
+				<div class="modal-header">
+				  <h2>Seus Dados</h2>
+				  <span class="fechar" onclick="fecharModalPedido()">&times;</span>
+				</div>
 
 				<div class="modal-body">
 				  <!-- todos os campos de cidade, bairro, endereço etc -->
@@ -68,8 +70,10 @@
 
 	  <div id="modalCardapioPedido" class="modal">
 		<div class="modal-content modal-pedido">
-		  	<span class="fechar" onclick="fecharCardapioPedido()">&times;</span>
-			<h2>Escolha seus itens</h2>
+			<div class="modal-header">
+			  <h2>Escolha seus Itens</h2>
+			  <span class="fechar" onclick="fecharCardapioPedido()">&times;</span>
+			</div>
 			<div id="listaItens" class="conteudo-scroll"></div>
 
 			<div class="rodape-modal">
