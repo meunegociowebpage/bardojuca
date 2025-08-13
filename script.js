@@ -349,14 +349,6 @@ function atualizarBairrosPorCidade() {
   // Limpar bairros anteriores
   bairroSelect.innerHTML = "";
 
-  // Adicionar a opção padrão
-  const optionDefault = document.createElement("option");
-  optionDefault.value = "";
-  optionDefault.textContent = "Selecione seu bairro";
-  optionDefault.disabled = true;
-  optionDefault.selected = true;
-  bairroSelect.appendChild(optionDefault);
-
   // Adicionar novos bairros
   if (bairrosPorCidade[cidadeSelecionada]) {
     bairrosPorCidade[cidadeSelecionada].sort().forEach(bairro => {
@@ -372,8 +364,7 @@ function atualizarBairrosPorCidade() {
 
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("cidade").addEventListener("change", atualizarBairrosPorCidade);
-  // atualizarBairrosPorCidade(); // removido para não preencher automaticamente
-// carregar bairros iniciais
+  atualizarBairrosPorCidade(); // carregar bairros iniciais
 });
 
 function abrirCardapioPedido() {
@@ -434,7 +425,7 @@ function abrirCardapioPedido() {
       const detalhes = detalhesPratos[item.nome];
       if (detalhes) {
         html += `<div id="detalhes-${index}" class="detalhes-prato" style="display: none;">`;
-        
+
         if (detalhes.opcoes) {
           html += `<div><strong>Como deseja o preparo?</strong>
             <div class="grupo-opcoes" data-grupo="opcao-${index}">`;

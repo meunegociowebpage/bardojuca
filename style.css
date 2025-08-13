@@ -145,10 +145,6 @@ button:hover {
   cursor: pointer;
 }
 
-.modal-content button:hover {
-  background-color: #b87f2c;
-}
-
 .fechar {
   position: absolute;
   top: 10px;
@@ -371,30 +367,61 @@ body.modal-aberto {
 .modal-content.modal-pedido {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   max-height: 90vh;
-  height: 90vh;
+  height: auto;
   margin: auto;
   top: 50%;
   transform: translateY(-50%);
   position: relative;
+  overflow: hidden; /* evita rolagem do header/rodapé */
 }
 
+/* Cabeçalho fixo */
+.modal-header {
+  flex-shrink: 0;
+  background-color: #F4EFE5;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ccc;
+  position: sticky;
+  top: 0;
+  z-index: 11;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.3em;
+}
+
+/* Botão fechar no canto direito */
+.modal-content.modal-pedido .fechar {
+  position: relative;
+  top: 0;
+  right: 0;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+/* Área rolável apenas no corpo */
+.modal-body,
 .conteudo-scroll {
   flex: 1;
   overflow-y: auto;
   padding-right: 5px;
-  margin-bottom: 10px;
 }
 
+/* Rodapé fixo */
 .rodape-modal {
+  flex-shrink: 0;
   background-color: #F4EFE5;
   padding: 15px;
   text-align: center;
   border-top: 1px solid #ccc;
   position: sticky;
   bottom: 0;
-  z-index: 10;
+  z-index: 11;
 }
 
 .rodape-modal button {
