@@ -2,7 +2,7 @@ const itensCardapio = {
   "Petiscos": [
     { nome: "Aipim Frito", preco: "24,90" },
     { nome: "Aipim Frito com Linguiça", preco: "33,90" },
-    { nome: "Batata Frita (chips)", preco: "33,90" },
+    { nome: "Batata Frita (chips)", preco: "37,90" },
     { nome: "Batata Frita (palito)", preco: "39,90" },
     { nome: "Bolinho de Feijoada (12un)", preco: "39,90" },
     { nome: "Frango à Passarinho", preco: "49,90" },
@@ -141,6 +141,11 @@ const catBar = document.getElementById("category-bar");
 const leftArrow = document.querySelector(".cat-arrow.left");
 const rightArrow = document.querySelector(".cat-arrow.right");
 
+if (leftArrow && rightArrow) {
+  leftArrow.addEventListener("click", () => changeCategory(-1));
+  rightArrow.addEventListener("click", () => changeCategory(1));
+}
+
 // Criar botões de categoria
 Object.keys(itensCardapio).forEach(cat => {
   const btn = document.createElement("button");
@@ -155,7 +160,7 @@ Object.keys(itensCardapio).forEach(cat => {
   catBar.appendChild(btn);
 });
 
-// Botões de seta para rolar categorias
+// --- Função para trocar categoria ---
 function changeCategory(direction) {
   const buttons = [...document.querySelectorAll(".category-btn")];
   const activeIndex = buttons.findIndex(b => b.classList.contains("active"));
@@ -167,13 +172,50 @@ function changeCategory(direction) {
   buttons[newIndex].click(); // simula clique
 }
 
-leftArrow.addEventListener("click", () => {
-  changeCategory(-1); // categoria anterior
+// --- Função com animação antes de trocar ---
+function animateAndChangeCategory(direction) {
+  const animationClass = direction > 0 ? "slide-left" : "slide-right";
+  productList.classList.add(animationClass);
+
+  setTimeout(() => {
+    changeCategory(direction);
+    productList.classList.remove(animationClass);
+  }, 300); // mesmo tempo definido no CSS
+}
+
+// 🔹 Detecta swipe na tela para trocar categorias
+let touchStartX = 0;
+let touchEndX = 0;
+
+// 🔹 Detecta swipe apenas na área dos produtos
+productList.addEventListener("touchstart", e => {
+  touchStartX = e.changedTouches[0].screenX;
 });
 
-rightArrow.addEventListener("click", () => {
-  changeCategory(1); // próxima categoria
+productList.addEventListener("touchend", e => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
 });
+
+function handleSwipe() {
+  let diff = touchEndX - touchStartX;
+  if (Math.abs(diff) > 50) { // deslize mínimo de 50px
+    if (diff < 0) {
+      animateAndChangeCategory(1); // deslizou para esquerda → próxima categoria
+    } else {
+      animateAndChangeCategory(-1); // deslizou para direita → categoria anterior
+    }
+  }
+}
+
+// 🔹 Novas setas verticais
+const arrowUp = document.querySelector(".vertical-arrow.left-side .cat-arrow.up");
+const arrowDown = document.querySelector(".vertical-arrow.right-side .cat-arrow.down");
+
+if (arrowUp && arrowDown) {
+  arrowUp.addEventListener("click", () => animateAndChangeCategory(-1));
+  arrowDown.addEventListener("click", () => animateAndChangeCategory(1));
+}
 
 
 // Função para centralizar categoria ativa
@@ -277,21 +319,42 @@ function mostrarProdutos(categoria) {
 		}
 	  }
 
+	  // Adiciona ao carrinho
 	  adicionarAoCarrinho({ ...item, extras });
+
+	  // 🔹 Limpa todos os campos selecionados do card
+	  card.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
+		input.checked = false;
+	  });
 	});
 
-
-    productList.appendChild(card);
-  });
+		productList.appendChild(card);
+	  });
 }
 
 function adicionarAoCarrinho(item) {
   carrinho.push(item);
   atualizarBotaoCarrinho();
+  mostrarPopupCarrinho();
+}
+
+function mostrarPopupCarrinho() {
+  const popup = document.getElementById("popup-carrinho");
+  popup.classList.add("show");
+  setTimeout(() => {
+    popup.classList.remove("show");
+  }, 2000);
 }
 
 function atualizarBotaoCarrinho() {
   btnCarrinho.textContent = `Carrinho (${carrinho.length})`;
+  
+  let totalSemTaxa = carrinho.reduce((sum, i) => sum + parseFloat(i.preco.replace(",", ".")), 0);
+  
+  const valorFooter = document.getElementById("valor-total-footer");
+  if (valorFooter) {
+    valorFooter.innerHTML = `R$ ${totalSemTaxa.toFixed(2).replace(".", ",")}<br><small>(valor sem a taxa de entrega)</small>`;
+  }
 }
 
 btnCarrinho.addEventListener("click", () => {
@@ -491,9 +554,38 @@ document.getElementById("enviar-whatsapp").onclick = () => {
 
   const totalPedido = carrinho.reduce((sum, i) => sum + parseFloat(i.preco.replace(",", ".")), 0) + taxaEntrega;
 
-  const mensagem = `Pedido de *${nome}*\nEndereço: ${endereco}, ${numero} ${complemento}\nBairro: ${bairro}\nCidade: ${cidade}\n\nItens:\n${resumo}\n\nTaxa de entrega: R$ ${taxaEntrega.toFixed(2)}\nTotal com entrega: R$ ${totalPedido.toFixed(2)}`;
+	const mensagem = 
+	`🍽 *Novo Pedido - Bar do Juca* 🍽
+
+	👤 *Cliente:* ${nome}
+	🏠 *Endereço:* ${endereco}, ${numero}${complemento ? ` - ${complemento}` : ""}
+	📍 *Bairro:* ${bairro}
+	🏙 *Cidade:* ${cidade}
+
+	🛒 *Itens do Pedido:*
+	${resumo}
+
+	🚚 *Taxa de Entrega:* R$ ${taxaEntrega.toFixed(2).replace(".", ",")}
+	💰 *Total com Entrega:* R$ ${totalPedido.toFixed(2).replace(".", ",")}`;
 
   const url = `https://wa.me/5524999787233?text=${encodeURIComponent(mensagem)}`;
-  window.open(url, "_blank");
+  location.href = url; // abre direto no app no mobile
 };
+
+const btnWhatsapp = document.getElementById("btn-whatsapp");
+btnWhatsapp.addEventListener("click", () => {
+  window.open("https://wa.me/5524999787233", "_blank"); 
+});
+
+const btnMaps = document.getElementById("btn-maps");
+btnMaps.addEventListener("click", () => {
+  window.open("https://www.google.com/maps/place/Bar+do+Juca/@-22.525967,-44.1237132,17z/data=!3m1!4b1!4m6!3m5!1s0x9e9859191bda41:0x4bd92b6436113445!8m2!3d-22.525972!4d-44.1211383!16s%2Fg%2F11bwyg_5rg?entry=ttu&g_ep=EgoyMDI1MDgxMS4wIKXMDSoASAFQAw%3D%3D", "_blank");
+});
+
+
+document.getElementById("btn-instagram").addEventListener("click", () => {
+  window.open("https://www.instagram.com/bardojucaeucaliptal/", "_blank");
+});
+
+
 
