@@ -10,6 +10,16 @@ body {
   padding-bottom: 60px;
 }
 
+button,
+.btn-carrinho,
+.add-btn,
+.remove-item,
+.category-btn {
+  border-radius: 20px !important;
+  padding: 8px 16px;
+}
+
+
 /* Topo */
 .top-bar {
   background-color: rgba(0, 65, 80, 0.85);
@@ -44,31 +54,89 @@ body {
   transform: scale(1.05);
 }
 
-/* Categorias */
+/* Barra de categorias */
 .category-bar {
   display: flex;
   overflow-x: auto;
-  background-color: rgba(0, 42, 54, 0.85);
-  padding: 10px;
-  backdrop-filter: blur(4px);
-  position: sticky;
-  top: 79px; /* altura da barra da logo */
+  overflow-y: hidden;
+  backdrop-filter: blur(6px); /* efeito embaçado */
+  padding: 8px;
+  gap: 10px;
+  top: 79px;
   z-index: 999;
+  scrollbar-width: thin; /* barra mais fina no Firefox */
+}
+
+.category-wrapper {
+  position: sticky;
+  top: 79px;
+  z-index: 999;
+  backdrop-filter: blur(6px);
+  padding-bottom: 5px;
+}
+
+.category-bar::-webkit-scrollbar {
+  height: 6px; /* altura da barra de rolagem no Chrome */
+}
+
+.category-bar::-webkit-scrollbar-thumb {
+  background-color: rgba(224, 180, 87, 0.7); /* dourado translúcido */
+  border-radius: 3px;
+}
+
+.category-bar::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 
 .category-btn {
-  background-color: transparent;
-  border: none;
+  flex: 0 0 auto;
+  background-color: rgba(0, 42, 54, 0.7);
+  border: 2px solid transparent;
+  padding: 8px 16px;
+  border-radius: 20px;
   color: #f1e7d0;
-  font-size: 16px;
-  margin-right: 15px;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
   white-space: nowrap;
-  transition: color 0.3s ease;
 }
 
 .category-btn:hover {
-  color: #f1c40f;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #e0b457;
+  color: #e0b457;
+}
+
+.category-btn.active {
+  background-color: #e0b457; /* dourado */
+  color: #002a36; /* azul escuro */
+  border-color: #e0b457;
+}
+
+.category-arrows {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  padding: 0 15px;
+}
+
+.cat-arrow {
+  background-color: rgba(0, 42, 54, 0.7);
+  border: 2px solid transparent;
+  padding: 6px 12px;
+  border-radius: 50%;
+  color: #f1e7d0;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cat-arrow:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #e0b457;
+  color: #e0b457;
 }
 
 /* Produtos */
@@ -140,15 +208,39 @@ body {
 
 .footer-content {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center; /* centraliza tudo no rodapé */
+  gap: 5px;
+}
+
+.footer-top {
+  display: flex;
+  align-items: center; /* alinha logo e nome lado a lado */
+  gap: 6px;
+}
+
+.footer-bottom {
+  display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: #f1e7d0;
+  gap: 6px;
+}
+
+.footer-logo {
+  height: 24px;
+}
+
+.footer-name {
+  font-weight: bold;
 }
 
 .footer-icon {
   font-size: 18px;
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column; /* coloca um item acima do outro */
+  align-items: flex-start; /* alinha à esquerda */
 }
 
 .modal-carrinho {
@@ -240,7 +332,7 @@ body {
   width: 100%;
 }
 
-.footer-logo {
-  height: 24px; /* ajusta o tamanho para caber no rodapé */
-  margin-right: 6px;
+.whatsapp-icon {
+  height: 18px;
 }
+

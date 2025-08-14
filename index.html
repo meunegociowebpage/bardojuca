@@ -15,23 +15,35 @@
     <button id="ver-carrinho" class="btn-carrinho">Carrinho (0)</button>
   </header>
 
-  <!-- Barra de categorias -->
-  <nav class="category-bar" id="category-bar"></nav>
+  <div class="category-wrapper">
+	<nav class="category-bar" id="category-bar"></nav>
+	<div class="category-arrows">
+		<button class="cat-arrow left">&#10094;</button>
+		<button class="cat-arrow right">&#10095;</button>
+	</div>
+  </div>
+
 
   <!-- Lista de produtos -->
-  <main id="product-list">
-    <p class="placeholder">Selecione uma categoria para ver os produtos.</p>
-  </main>
+<main id="product-list"></main>
 
-  <footer class="footer">
-    <div class="footer-content">
-		<img src="logo_nbg.png" alt="Logo" class="footer-logo">
-		<span>Meu Negócio WebPage</span>
-		<span class="footer-icon">📞</span>
-		<span>(24) 99952-2320</span>
-    </div>
-  </footer>
-  
+	<footer class="footer">
+	  <div class="footer-content">
+		<div class="footer-top">
+		  <img src="logo_nbg.png" alt="Logo" class="footer-logo">
+		  <span class="footer-name">Meu Negócio WebPage</span>
+		</div>
+		<div class="footer-bottom">
+		  <span class="footer-icon">
+			  <img src="whatsapp.png" alt="WhatsApp" class="whatsapp-icon">
+		  </span>
+		  <span>(24) 99952-2320</span>
+		</div>
+	  </div>
+	</footer>
+
+ 
+ 
   <!-- Modal do Carrinho -->
   <div id="modal-carrinho" class="modal-carrinho">
     <div class="modal-content">

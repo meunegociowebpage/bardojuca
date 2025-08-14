@@ -137,7 +137,11 @@ const categoryBar = document.getElementById("category-bar");
 const productList = document.getElementById("product-list");
 const btnCarrinho = document.getElementById("ver-carrinho");
 
-// Criar botões de categoria com destaque no ativo
+const catBar = document.getElementById("category-bar");
+const leftArrow = document.querySelector(".cat-arrow.left");
+const rightArrow = document.querySelector(".cat-arrow.right");
+
+// Criar botões de categoria
 Object.keys(itensCardapio).forEach(cat => {
   const btn = document.createElement("button");
   btn.classList.add("category-btn");
@@ -146,12 +150,57 @@ Object.keys(itensCardapio).forEach(cat => {
     document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     mostrarProdutos(cat);
+    scrollToActive(btn);
   });
-  categoryBar.appendChild(btn);
+  catBar.appendChild(btn);
 });
 
-// Ativar a primeira categoria por padrão
-document.querySelector(".category-btn")?.classList.add("active");
+// Botões de seta para rolar categorias
+function changeCategory(direction) {
+  const buttons = [...document.querySelectorAll(".category-btn")];
+  const activeIndex = buttons.findIndex(b => b.classList.contains("active"));
+  let newIndex = activeIndex + direction;
+
+  if (newIndex < 0) newIndex = buttons.length - 1;
+  if (newIndex >= buttons.length) newIndex = 0;
+
+  buttons[newIndex].click(); // simula clique
+}
+
+leftArrow.addEventListener("click", () => {
+  changeCategory(-1); // categoria anterior
+});
+
+rightArrow.addEventListener("click", () => {
+  changeCategory(1); // próxima categoria
+});
+
+
+// Função para centralizar categoria ativa
+function scrollToActive(btn) {
+  const barRect = catBar.getBoundingClientRect();
+  const btnRect = btn.getBoundingClientRect();
+
+  if (btnRect.left < barRect.left || btnRect.right > barRect.right) {
+    btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }
+}
+
+// Ativar "Petiscos" ao carregar
+const petiscosBtn = [...document.querySelectorAll(".category-btn")].find(b => b.textContent === "Petiscos");
+if (petiscosBtn) {
+  petiscosBtn.classList.add("active");
+  mostrarProdutos("Petiscos");
+  scrollToActive(petiscosBtn);
+}
+
+
+// Ativar "Petiscos" por padrão
+const primeiroBotao = [...document.querySelectorAll(".category-btn")].find(b => b.textContent === "Petiscos");
+if (primeiroBotao) {
+  primeiroBotao.classList.add("active");
+  mostrarProdutos("Petiscos");
+}
 
 function mostrarProdutos(categoria) {
   productList.innerHTML = "";
@@ -196,30 +245,41 @@ function mostrarProdutos(categoria) {
       <button class="add-btn">Adicionar ao Carrinho</button>
     `;
 
-    card.querySelector(".add-btn").addEventListener("click", () => {
-      let extras = {};
+	card.querySelector(".add-btn").addEventListener("click", () => {
+	  let extras = {};
 
-      if (detalhesPratos[item.nome]) {
-        const detalhes = detalhesPratos[item.nome];
+	  if (detalhesPratos[item.nome]) {
+		const detalhes = detalhesPratos[item.nome];
 
-        if (detalhes.opcoes) {
-          const sel = card.querySelector(`input[name="op_${item.nome}"]:checked`);
-          extras.opcao = sel ? sel.value : null;
-        }
+		if (detalhes.opcoes) {
+		  const sel = card.querySelector(`input[name="op_${item.nome}"]:checked`);
+		  extras.opcao = sel ? sel.value : null;
+		}
 
-        if (detalhes.acompanhamentos) {
-          const checks = [...card.querySelectorAll(`input[name="acomp_${item.nome}"]:checked`)];
-          extras.acompanhamentos = checks.map(c => c.value);
-        }
+		if (detalhes.acompanhamentos) {
+		  const checks = [...card.querySelectorAll(`input[name="acomp_${item.nome}"]:checked`)];
+		  extras.acompanhamentos = checks.map(c => c.value);
 
-        if (detalhes.escolhaUnica) {
-          const unica = card.querySelector(`input[name="unica_${item.nome}"]:checked`);
-          extras.escolhaUnica = unica ? unica.value : null;
-        }
-      }
+		  if (extras.acompanhamentos.length === 0) {
+			alert("Por favor, selecione ao menos 1 acompanhamento.");
+			return; // impede adicionar
+		  }
+		}
 
-      adicionarAoCarrinho({ ...item, extras });
-    });
+		if (detalhes.escolhaUnica) {
+		  const unica = card.querySelector(`input[name="unica_${item.nome}"]:checked`);
+		  extras.escolhaUnica = unica ? unica.value : null;
+
+		  if (!extras.escolhaUnica) {
+			alert("Por favor, selecione 1 opção na escolha única.");
+			return; // impede adicionar
+		  }
+		}
+	  }
+
+	  adicionarAoCarrinho({ ...item, extras });
+	});
+
 
     productList.appendChild(card);
   });
