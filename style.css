@@ -37,6 +37,30 @@ button,
   height: 55px;
 }
 
+.topo {
+  display: flex;
+  justify-content: space-between; /* logo à esquerda, botões à direita */
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.topo-botoes {
+  display: flex;
+  gap: 15px; /* espaço entre os botões */
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.icon-btn img {
+  height: 55px;
+}
+
+
 .btn-carrinho {
   background: linear-gradient(135deg, #c2923f, #e0b457);
   border: none;
@@ -202,9 +226,9 @@ button,
 
 .footer-content {
   display: flex;
-  flex-direction: column;
-  align-items: center; /* centraliza tudo no rodapé */
-  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 }
 
 .footer-top {

@@ -307,13 +307,11 @@ function mostrarPopupCarrinho() {
 function atualizarBotaoCarrinho() {
   btnCarrinho.textContent = `Carrinho (${carrinho.length})`;
   
-  // Calcula valor total sem taxa
   let totalSemTaxa = carrinho.reduce((sum, i) => sum + parseFloat(i.preco.replace(",", ".")), 0);
   
-  // Atualiza no topo
-  const valorTopo = document.getElementById("valor-total-topo");
-  if (valorTopo) {
-    valorTopo.innerHTML = `R$ ${totalSemTaxa.toFixed(2).replace(".", ",")}<br><small>(valor sem a taxa de entrega)</small>`;
+  const valorFooter = document.getElementById("valor-total-footer");
+  if (valorFooter) {
+    valorFooter.innerHTML = `R$ ${totalSemTaxa.toFixed(2).replace(".", ",")}<br><small>(valor sem a taxa de entrega)</small>`;
   }
 }
 
