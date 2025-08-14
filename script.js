@@ -2,7 +2,7 @@ const itensCardapio = {
   "Petiscos": [
     { nome: "Aipim Frito", preco: "24,90" },
     { nome: "Aipim Frito com Linguiça", preco: "33,90" },
-    { nome: "Batata Frita (chips)", preco: "37,90" },
+    { nome: "Batata Frita (chips)", preco: "33,90" },
     { nome: "Batata Frita (palito)", preco: "39,90" },
     { nome: "Bolinho de Feijoada (12un)", preco: "39,90" },
     { nome: "Frango à Passarinho", preco: "49,90" },
@@ -277,42 +277,21 @@ function mostrarProdutos(categoria) {
 		}
 	  }
 
-	  // Adiciona ao carrinho
 	  adicionarAoCarrinho({ ...item, extras });
-
-	  // 🔹 Limpa todos os campos selecionados do card
-	  card.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
-		input.checked = false;
-	  });
 	});
 
-		productList.appendChild(card);
-	  });
+
+    productList.appendChild(card);
+  });
 }
 
 function adicionarAoCarrinho(item) {
   carrinho.push(item);
   atualizarBotaoCarrinho();
-  mostrarPopupCarrinho();
-}
-
-function mostrarPopupCarrinho() {
-  const popup = document.getElementById("popup-carrinho");
-  popup.classList.add("show");
-  setTimeout(() => {
-    popup.classList.remove("show");
-  }, 2000);
 }
 
 function atualizarBotaoCarrinho() {
   btnCarrinho.textContent = `Carrinho (${carrinho.length})`;
-  
-  let totalSemTaxa = carrinho.reduce((sum, i) => sum + parseFloat(i.preco.replace(",", ".")), 0);
-  
-  const valorFooter = document.getElementById("valor-total-footer");
-  if (valorFooter) {
-    valorFooter.innerHTML = `R$ ${totalSemTaxa.toFixed(2).replace(".", ",")}<br><small>(valor sem a taxa de entrega)</small>`;
-  }
 }
 
 btnCarrinho.addEventListener("click", () => {
@@ -512,52 +491,9 @@ document.getElementById("enviar-whatsapp").onclick = () => {
 
   const totalPedido = carrinho.reduce((sum, i) => sum + parseFloat(i.preco.replace(",", ".")), 0) + taxaEntrega;
 
-	const mensagem = 
-	`🍽 *Novo Pedido - Bar do Juca* 🍽
-
-	👤 *Cliente:* ${nome}
-	🏠 *Endereço:* ${endereco}, ${numero}${complemento ? ` - ${complemento}` : ""}
-	📍 *Bairro:* ${bairro}
-	🏙 *Cidade:* ${cidade}
-
-	🛒 *Itens do Pedido:*
-	${resumo}
-
-	🚚 *Taxa de Entrega:* R$ ${taxaEntrega.toFixed(2).replace(".", ",")}
-	💰 *Total com Entrega:* R$ ${totalPedido.toFixed(2).replace(".", ",")}`;
+  const mensagem = `Pedido de *${nome}*\nEndereço: ${endereco}, ${numero} ${complemento}\nBairro: ${bairro}\nCidade: ${cidade}\n\nItens:\n${resumo}\n\nTaxa de entrega: R$ ${taxaEntrega.toFixed(2)}\nTotal com entrega: R$ ${totalPedido.toFixed(2)}`;
 
   const url = `https://wa.me/5524999787233?text=${encodeURIComponent(mensagem)}`;
-  location.href = url; // abre direto no app no mobile
-};
-
-const btnWhatsapp = document.getElementById("btn-whatsapp");
-const btnMaps = document.getElementById("btn-maps");
-
-const modalWhatsapp = document.getElementById("modal-whatsapp");
-const modalMaps = document.getElementById("modal-maps");
-
-document.getElementById("fechar-whatsapp").onclick = () => modalWhatsapp.style.display = "none";
-document.getElementById("fechar-maps").onclick = () => modalMaps.style.display = "none";
-
-btnWhatsapp.addEventListener("click", () => modalWhatsapp.style.display = "flex");
-btnMaps.addEventListener("click", () => modalMaps.style.display = "flex");
-
-document.getElementById("enviar-whatsapp-modal").onclick = () => {
-  const mensagem = document.getElementById("mensagem-whatsapp").value.trim();
-  if(!mensagem) {
-    alert("Digite uma mensagem antes de enviar.");
-    return;
-  }
-  const numero = "5524999787233"; 
-  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
   window.open(url, "_blank");
-  document.getElementById("mensagem-whatsapp").value = "";
-  modalWhatsapp.style.display = "none";
 };
-
-window.onclick = (e) => {
-  if(e.target === modalWhatsapp) modalWhatsapp.style.display = "none";
-  if(e.target === modalMaps) modalMaps.style.display = "none";
-};
-
 
