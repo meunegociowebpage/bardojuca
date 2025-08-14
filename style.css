@@ -113,10 +113,13 @@ button,
 }
 
 .category-arrows {
+  position: relative; /* 🔹 define referência para o popup */
   display: flex;
   justify-content: space-between;
+  align-items: center; /* 🔹 centraliza na altura */
   margin-top: 5px;
   padding: 0 15px;
+  z-index: 1001; /* 🔹 garante sobreposição sobre a barra */
 }
 
 .cat-arrow {
@@ -273,6 +276,13 @@ button,
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.2); /* 🔹 separador */
+}
+
+/* Remove a linha do último item */
+#lista-carrinho li:last-child {
+  border-bottom: none;
 }
 
 .remove-item {
@@ -327,3 +337,37 @@ button,
   height: 18px;
 }
 
+/* Popup de item adicionado - centralizado entre as setas */
+#popup-carrinho {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background: rgba(0, 42, 54, 0.95);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#popup-carrinho.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.valor-total-topo {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.valor-total-topo small {
+  font-size: 11px;
+  font-weight: normal;
+  color: rgba(255,255,255,0.8);
+}

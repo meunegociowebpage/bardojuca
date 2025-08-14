@@ -277,21 +277,44 @@ function mostrarProdutos(categoria) {
 		}
 	  }
 
+	  // Adiciona ao carrinho
 	  adicionarAoCarrinho({ ...item, extras });
+
+	  // 🔹 Limpa todos os campos selecionados do card
+	  card.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
+		input.checked = false;
+	  });
 	});
 
-
-    productList.appendChild(card);
-  });
+		productList.appendChild(card);
+	  });
 }
 
 function adicionarAoCarrinho(item) {
   carrinho.push(item);
   atualizarBotaoCarrinho();
+  mostrarPopupCarrinho();
+}
+
+function mostrarPopupCarrinho() {
+  const popup = document.getElementById("popup-carrinho");
+  popup.classList.add("show");
+  setTimeout(() => {
+    popup.classList.remove("show");
+  }, 2000);
 }
 
 function atualizarBotaoCarrinho() {
   btnCarrinho.textContent = `Carrinho (${carrinho.length})`;
+  
+  // Calcula valor total sem taxa
+  let totalSemTaxa = carrinho.reduce((sum, i) => sum + parseFloat(i.preco.replace(",", ".")), 0);
+  
+  // Atualiza no topo
+  const valorTopo = document.getElementById("valor-total-topo");
+  if (valorTopo) {
+    valorTopo.innerHTML = `R$ ${totalSemTaxa.toFixed(2).replace(".", ",")}<br><small>(valor sem a taxa de entrega)</small>`;
+  }
 }
 
 btnCarrinho.addEventListener("click", () => {
@@ -491,7 +514,19 @@ document.getElementById("enviar-whatsapp").onclick = () => {
 
   const totalPedido = carrinho.reduce((sum, i) => sum + parseFloat(i.preco.replace(",", ".")), 0) + taxaEntrega;
 
-  const mensagem = `Pedido de *${nome}*\nEndereço: ${endereco}, ${numero} ${complemento}\nBairro: ${bairro}\nCidade: ${cidade}\n\nItens:\n${resumo}\n\nTaxa de entrega: R$ ${taxaEntrega.toFixed(2)}\nTotal com entrega: R$ ${totalPedido.toFixed(2)}`;
+	const mensagem = 
+	`🍽 *Novo Pedido - Bar do Juca* 🍽
+
+	👤 *Cliente:* ${nome}
+	🏠 *Endereço:* ${endereco}, ${numero}${complemento ? ` - ${complemento}` : ""}
+	📍 *Bairro:* ${bairro}
+	🏙 *Cidade:* ${cidade}
+
+	🛒 *Itens do Pedido:*
+	${resumo}
+
+	🚚 *Taxa de Entrega:* R$ ${taxaEntrega.toFixed(2).replace(".", ",")}
+	💰 *Total com Entrega:* R$ ${totalPedido.toFixed(2).replace(".", ",")}`;
 
   const url = `https://wa.me/5524999787233?text=${encodeURIComponent(mensagem)}`;
   window.open(url, "_blank");
