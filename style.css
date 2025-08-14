@@ -46,12 +46,10 @@ button,
   color: white;
   font-weight: 600;
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
 }
 
 .btn-carrinho:hover {
   background: linear-gradient(135deg, #a6782e, #c2923f);
-  transform: scale(1.05);
 }
 
 /* Barra de categorias */
@@ -151,11 +149,6 @@ button,
   padding: 15px;
   margin-bottom: 15px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease;
-}
-
-.product-card:hover {
-  transform: translateY(-3px);
 }
 
 .product-title {
@@ -188,12 +181,10 @@ button,
   color: white;
   font-weight: 600;
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
 }
 
 .add-btn:hover {
   background: linear-gradient(135deg, #a6782e, #c2923f);
-  transform: scale(1.05);
 }
 
 /* Rodapé */
