@@ -530,3 +530,34 @@ document.getElementById("enviar-whatsapp").onclick = () => {
   window.open(url, "_blank");
 };
 
+const btnWhatsapp = document.getElementById("btn-whatsapp");
+const btnMaps = document.getElementById("btn-maps");
+
+const modalWhatsapp = document.getElementById("modal-whatsapp");
+const modalMaps = document.getElementById("modal-maps");
+
+document.getElementById("fechar-whatsapp").onclick = () => modalWhatsapp.style.display = "none";
+document.getElementById("fechar-maps").onclick = () => modalMaps.style.display = "none";
+
+btnWhatsapp.addEventListener("click", () => modalWhatsapp.style.display = "flex");
+btnMaps.addEventListener("click", () => modalMaps.style.display = "flex");
+
+document.getElementById("enviar-whatsapp-modal").onclick = () => {
+  const mensagem = document.getElementById("mensagem-whatsapp").value.trim();
+  if(!mensagem) {
+    alert("Digite uma mensagem antes de enviar.");
+    return;
+  }
+  const numero = "5524999787233"; 
+  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+  window.open(url, "_blank");
+  document.getElementById("mensagem-whatsapp").value = "";
+  modalWhatsapp.style.display = "none";
+};
+
+window.onclick = (e) => {
+  if(e.target === modalWhatsapp) modalWhatsapp.style.display = "none";
+  if(e.target === modalMaps) modalMaps.style.display = "none";
+};
+
+
