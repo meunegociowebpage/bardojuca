@@ -1,7 +1,7 @@
 const itensCardapio = {
   "Petiscos": [
     { nome: "Aipim Frito", preco: "24,90" },
-    { nome: "Aipim Frito com Linguiça", preco: "33,90" },
+    { nome: "Aipim Frito com Linguiça", preco: "35,90" },
     { nome: "Batata Frita (chips)", preco: "37,90" },
     { nome: "Batata Frita (palito)", preco: "39,90" },
     { nome: "Bolinho de Feijoada (12un)", preco: "39,90" },
