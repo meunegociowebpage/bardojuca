@@ -527,7 +527,7 @@ document.getElementById("enviar-whatsapp").onclick = () => {
 	💰 *Total com Entrega:* R$ ${totalPedido.toFixed(2).replace(".", ",")}`;
 
   const url = `https://wa.me/5524999787233?text=${encodeURIComponent(mensagem)}`;
-  window.open(url, "_blank");
+  location.href = url; // abre direto no app no mobile
 };
 
 const btnWhatsapp = document.getElementById("btn-whatsapp");
