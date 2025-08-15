@@ -4,8 +4,8 @@ const itensCardapio = {
     { nome: "Aipim Frito com Linguiça", preco: "35,90" },
     { nome: "Batata Frita (chips)", preco: "37,90" },
     { nome: "Batata Frita (palito)", preco: "37,90" },
-    // { nome: "Bolinho de Feijoada (12un)", preco: "39,90" },
-	{ nome: "Bolinho de Feijoada (12un) (PROMO)", preco: "32,90" },
+    { nome: "Bolinho de Feijoada (12un)", preco: "39,90" },
+	// { nome: "Bolinho de Feijoada (12un) (PROMO)", preco: "32,90" },
     { nome: "Frango à Passarinho", preco: "49,90" },
     { nome: "Isca de Frango Empanada", preco: "42,90" },
 	{ nome: "Linguiça Acebolada", preco: "39,90" },
@@ -14,8 +14,8 @@ const itensCardapio = {
   "Petiscos do Mar": [
     { nome: "Bolinho de Bacalhau", preco: "39,90" },
     { nome: "Bolinho de Camarão", preco: "39,90" },
-    // { nome: "Bolinho de Tilápia", preco: "39,90" },
-    { nome: "Bolinho de Tilápia (PROMO)", preco: "32,90" },
+    { nome: "Bolinho de Tilápia", preco: "39,90" },
+    // { nome: "Bolinho de Tilápia (PROMO)", preco: "32,90" },
     { nome: "Casquinha de Siri", preco: "19,90" },
     { nome: "Casquinha de Camarão", preco: "19,90" },
     { nome: "Camarão Frito (com casca)", preco: "55,90" },
@@ -24,11 +24,11 @@ const itensCardapio = {
     { nome: "Isca de Tilápia", preco: "59,90" },
     { nome: "Lambari", preco: "39,90" },
     { nome: "Lula Frita Empanada", preco: "65,90" },
-    // { nome: "Pastel de Camarão (6 un)", preco: "41,90" }, 
-	{ nome: "Pastel de Camarão (6 un) (PROMO)", preco: "39,90" },
+    { nome: "Pastel de Camarão (6 un)", preco: "41,90" }, 
+	// { nome: "Pastel de Camarão (6 un) (PROMO)", preco: "39,90" },
     { nome: "Pastel de Camarão com Catupiry (6un)", preco: "49,90" },
-    // { nome: "Trio Juca", preco: "69,90" },
-	{ nome: "Trio Juca (PROMO)", preco: "59,90" }
+    { nome: "Trio Juca", preco: "69,90" },
+	// { nome: "Trio Juca (PROMO)", preco: "59,90" }
   ],
   "Moquecas": [
     { nome: "Cação (2 pessoas)", preco: "129,90" },
