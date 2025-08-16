@@ -5,17 +5,15 @@ const itensCardapio = {
     { nome: "Batata Frita (chips)", preco: "37,90" },
     { nome: "Batata Frita (palito)", preco: "37,90" },
     { nome: "Bolinho de Feijoada (12un)", preco: "39,90" },
-	// { nome: "Bolinho de Feijoada (12un) (PROMO)", preco: "32,90" },
     { nome: "Frango à Passarinho", preco: "49,90" },
     { nome: "Isca de Frango Empanada", preco: "42,90" },
-	{ nome: "Linguiça Acebolada", preco: "39,90" },
-	{ nome: "Linguiça com Batata Frita", preco: "43,90" }
+    { nome: "Linguiça Acebolada", preco: "39,90" },
+    { nome: "Linguiça com Batata Frita", preco: "43,90" }
   ],
   "Petiscos do Mar": [
     { nome: "Bolinho de Bacalhau", preco: "39,90" },
     { nome: "Bolinho de Camarão", preco: "39,90" },
     { nome: "Bolinho de Tilápia", preco: "39,90" },
-    // { nome: "Bolinho de Tilápia (PROMO)", preco: "32,90" },
     { nome: "Casquinha de Siri", preco: "19,90" },
     { nome: "Casquinha de Camarão", preco: "19,90" },
     { nome: "Camarão Frito (com casca)", preco: "55,90" },
@@ -24,11 +22,9 @@ const itensCardapio = {
     { nome: "Isca de Tilápia", preco: "59,90" },
     { nome: "Lambari", preco: "39,90" },
     { nome: "Lula Frita Empanada", preco: "65,90" },
-    { nome: "Pastel de Camarão (6 un)", preco: "41,90" }, 
-	// { nome: "Pastel de Camarão (6 un) (PROMO)", preco: "39,90" },
+    { nome: "Pastel de Camarão (6 un)", preco: "41,90" },
     { nome: "Pastel de Camarão com Catupiry (6un)", preco: "49,90" },
-    { nome: "Trio Juca", preco: "69,90" },
-	// { nome: "Trio Juca (PROMO)", preco: "59,90" }
+    { nome: "Trio Juca", preco: "69,90" }
   ],
   "Moquecas": [
     { nome: "Cação (2 pessoas)", preco: "129,90" },
@@ -189,38 +185,7 @@ function animateAndChangeCategory(direction) {
   }, 300); // mesmo tempo definido no CSS
 }
 
-// 🔹 Detecta swipe na tela para trocar categorias (MELHORADO)
-let touchStartX = 0;
-let touchEndX = 0;
-let touchStartY = 0;
-let touchEndY = 0;
-
-productList.addEventListener("touchstart", e => {
-  touchStartX = e.changedTouches[0].screenX;
-  touchStartY = e.changedTouches[0].screenY;
-});
-
-productList.addEventListener("touchend", e => {
-  touchEndX = e.changedTouches[0].screenX;
-  touchEndY = e.changedTouches[0].screenY;
-  handleSwipe();
-});
-
-function handleSwipe() {
-  let diffX = touchEndX - touchStartX;
-  let diffY = touchEndY - touchStartY;
-
-  // só troca se deslizar mais na horizontal do que na vertical
-  if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 80) {
-    if (diffX < 0) {
-      animateAndChangeCategory(1); // deslizou para esquerda → próxima categoria
-    } else {
-      animateAndChangeCategory(-1); // deslizou para direita → categoria anterior
-    }
-  }
-}
-
-// 🔹 Novas setas verticais
+// 🔹 Setas verticais (se ainda usar)
 const arrowUp = document.querySelector(".vertical-arrow.left-side .cat-arrow.up");
 const arrowDown = document.querySelector(".vertical-arrow.right-side .cat-arrow.down");
 
@@ -229,8 +194,7 @@ if (arrowUp && arrowDown) {
   arrowDown.addEventListener("click", () => animateAndChangeCategory(1));
 }
 
-
-// Função para centralizar categoria ativa
+// Função para centralizar categoria ativa (só se barra ainda rolar horizontal)
 function scrollToActive(btn) {
   const barRect = catBar.getBoundingClientRect();
   const btnRect = btn.getBoundingClientRect();
@@ -246,14 +210,6 @@ if (petiscosBtn) {
   petiscosBtn.classList.add("active");
   mostrarProdutos("Petiscos");
   scrollToActive(petiscosBtn);
-}
-
-
-// Ativar "Petiscos" por padrão
-const primeiroBotao = [...document.querySelectorAll(".category-btn")].find(b => b.textContent === "Petiscos");
-if (primeiroBotao) {
-  primeiroBotao.classList.add("active");
-  mostrarProdutos("Petiscos");
 }
 
 function mostrarProdutos(categoria) {
@@ -299,49 +255,47 @@ function mostrarProdutos(categoria) {
       <button class="add-btn">Adicionar ao Carrinho</button>
     `;
 
-	card.querySelector(".add-btn").addEventListener("click", () => {
-	  let extras = {};
+    card.querySelector(".add-btn").addEventListener("click", () => {
+      let extras = {};
 
-	  if (detalhesPratos[item.nome]) {
-		const detalhes = detalhesPratos[item.nome];
+      if (detalhesPratos[item.nome]) {
+        const detalhes = detalhesPratos[item.nome];
 
-		if (detalhes.opcoes) {
-		  const sel = card.querySelector(`input[name="op_${item.nome}"]:checked`);
-		  extras.opcao = sel ? sel.value : null;
-		}
+        if (detalhes.opcoes) {
+          const sel = card.querySelector(`input[name="op_${item.nome}"]:checked`);
+          extras.opcao = sel ? sel.value : null;
+        }
 
-		if (detalhes.acompanhamentos) {
-		  const checks = [...card.querySelectorAll(`input[name="acomp_${item.nome}"]:checked`)];
-		  extras.acompanhamentos = checks.map(c => c.value);
+        if (detalhes.acompanhamentos) {
+          const checks = [...card.querySelectorAll(`input[name="acomp_${item.nome}"]:checked`)];
+          extras.acompanhamentos = checks.map(c => c.value);
 
-		  if (extras.acompanhamentos.length === 0) {
-			alert("Por favor, selecione ao menos 1 acompanhamento.");
-			return; // impede adicionar
-		  }
-		}
+          if (extras.acompanhamentos.length === 0) {
+            alert("Por favor, selecione ao menos 1 acompanhamento.");
+            return; // impede adicionar
+          }
+        }
 
-		if (detalhes.escolhaUnica) {
-		  const unica = card.querySelector(`input[name="unica_${item.nome}"]:checked`);
-		  extras.escolhaUnica = unica ? unica.value : null;
+        if (detalhes.escolhaUnica) {
+          const unica = card.querySelector(`input[name="unica_${item.nome}"]:checked`);
+          extras.escolhaUnica = unica ? unica.value : null;
 
-		  if (!extras.escolhaUnica) {
-			alert("Por favor, selecione 1 opção na escolha única.");
-			return; // impede adicionar
-		  }
-		}
-	  }
+          if (!extras.escolhaUnica) {
+            alert("Por favor, selecione 1 opção na escolha única.");
+            return; // impede adicionar
+          }
+        }
+      }
 
-	  // Adiciona ao carrinho
-	  adicionarAoCarrinho({ ...item, extras });
+      adicionarAoCarrinho({ ...item, extras });
 
-	  // 🔹 Limpa todos os campos selecionados do card
-	  card.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
-		input.checked = false;
-	  });
-	});
+      card.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
+        input.checked = false;
+      });
+    });
 
-		productList.appendChild(card);
-	  });
+    productList.appendChild(card);
+  });
 }
 
 function adicionarAoCarrinho(item) {
@@ -386,7 +340,6 @@ function abrirModalCarrinho() {
     const li = document.createElement("li");
     li.classList.add("carrinho-item");
 
-    // monta descrição SEM "(frito ou grelhado)" e usa apenas a opção escolhida
     let descricao = item.nome.replace("(frito ou grelhado)", "").trim();
     if (item.extras) {
       if (item.extras.opcao) {
@@ -423,8 +376,7 @@ function abrirModalCarrinho() {
   document.getElementById("modal-carrinho").style.display = "flex";
 }
 
-
-// Controle dos modais
+// --- Controle dos modais ---
 const modalCarrinho = document.getElementById("modal-carrinho");
 const modalDados = document.getElementById("modal-dados");
 
@@ -448,19 +400,14 @@ document.getElementById("fechar-dados").onclick = () => {
 };
 
 document.getElementById("confirmar-dados").onclick = () => {
-  // Aqui você pode validar e enviar os dados
   alert("Dados confirmados! Agora pode prosseguir com o pedido.");
   modalDados.style.display = "none";
 };
 
-// Dados de bairros e valores
+// --- Bairros e entrega ---
 const bairrosPorCidade = {
-  "Volta Redonda": [
-    "Aero","Agua Limpa","Aterrado","Barreira Cravo","Bela Vista","Belmonte","Bom Jesus","Casa de Pedra","Centro","Conforto","Duzentos e Quarenta e Nove","Eucaliptal","Jardim Amália I","Jardim Amália II","Jardim Belvedere","Jardim Cidade do Aço","Jardim Esperança","Jardim Europa","Jardim Normandia","Jardim Paraíba","Jardim Ponte Alta","Jardim Primavera","Jardim Suíça","Jardim Tiradentes","Jardim Veneza","Jardim Vila Rica - Tiradentes","Laranjal","Limoeiro","Minerlândia","Mirante do Vale","Monte Castelo","Morro São Carlos","Niterói","Nossa Senhora das Graças","Nova São Luiz","Parque das Ilhas","Pinto da Serra","Ponte Alta","Retiro","Rústico","Sam Remo","Santo Agostinho","São Cristóvão","São Geraldo","São João","São João Batista","São Lucas","São Luís","Sessenta","Siderlândia","Siderópolis","Sidervile","Vila Americana","Vila Mury","Vila Santa Cecília","Voldac","Volta Grande I","Volta Grande II","Volta Grande III"
-  ],
-  "Barra Mansa": [
-    "9 de Abril","Assunção","Boavista 2","Mangueira","Metalúrgico","Paraíso","Santa Rosa","São Sebastião","Vale do Paraíba","Vila Elmira"
-  ]
+  "Volta Redonda": ["Aero","Agua Limpa","Aterrado","Barreira Cravo","Bela Vista","Belmonte","Bom Jesus","Casa de Pedra","Centro","Conforto","Duzentos e Quarenta e Nove","Eucaliptal","Jardim Amália I","Jardim Amália II","Jardim Belvedere","Jardim Cidade do Aço","Jardim Esperança","Jardim Europa","Jardim Normandia","Jardim Paraíba","Jardim Ponte Alta","Jardim Primavera","Jardim Suíça","Jardim Tiradentes","Jardim Veneza","Jardim Vila Rica - Tiradentes","Laranjal","Limoeiro","Minerlândia","Mirante do Vale","Monte Castelo","Morro São Carlos","Niterói","Nossa Senhora das Graças","Nova São Luiz","Parque das Ilhas","Pinto da Serra","Ponte Alta","Retiro","Rústico","Sam Remo","Santo Agostinho","São Cristóvão","São Geraldo","São João","São João Batista","São Lucas","São Luís","Sessenta","Siderlândia","Siderópolis","Sidervile","Vila Americana","Vila Mury","Vila Santa Cecília","Voldac","Volta Grande I","Volta Grande II","Volta Grande III"],
+  "Barra Mansa": ["9 de Abril","Assunção","Boavista 2","Mangueira","Metalúrgico","Paraíso","Santa Rosa","São Sebastião","Vale do Paraíba","Vila Elmira"]
 };
 
 const valorEntregaPorBairro = {
@@ -481,17 +428,14 @@ const valorEntregaPorBairro = {
   "Siderópolis": 10.00, "Sidervile": 8.00, "Vila Americana": 10.00, "Vila Mury": 9.00,
   "Vila Santa Cecília": 9.00, "Voldac": 10.00, "Volta Grande I": 10.00,
   "Volta Grande II": 10.00, "Volta Grande III": 10.00,
-
   "9 de Abril": 8.00, "Assunção": 8.00, "Boavista 2": 8.00, "Mangueira": 8.00,
   "Metalúrgico": 8.00, "Paraíso": 8.00, "São Sebastião": 8.00, "Vila Elmira": 8.00,
   "Santa Rosa": 12.00, "Vale do Paraíba": 12.00
 };
 
-// Elementos
 const selectCidade = document.getElementById("cidade");
 const selectBairro = document.getElementById("bairro");
 
-// Quando a cidade muda, atualizar lista de bairros
 if (selectCidade) {
   selectCidade.addEventListener("change", () => {
     const cidade = selectCidade.value;
@@ -501,7 +445,7 @@ if (selectCidade) {
       bairrosPorCidade[cidade].forEach(bairro => {
         const opt = document.createElement("option");
         opt.value = bairro;
-        opt.textContent = bairro; // apenas o nome
+        opt.textContent = bairro;
         selectBairro.appendChild(opt);
       });
     }
@@ -520,7 +464,6 @@ document.getElementById("confirmar-dados").onclick = () => {
   const complemento = document.getElementById("complemento").value.trim();
   const nome = document.getElementById("nome").value.trim();
 
-  // validação
   if (!cidade || !bairro || !endereco || !numero || !nome) {
     alert("Por favor, preencha todos os campos obrigatórios.");
     return;
@@ -581,22 +524,22 @@ document.getElementById("enviar-whatsapp").onclick = () => {
 
   const totalPedido = carrinho.reduce((sum, i) => sum + parseFloat(i.preco.replace(",", ".")), 0) + taxaEntrega;
 
-	const mensagem = 
-	`🍽 *Novo Pedido - Bar do Juca* 🍽
+  const mensagem = 
+  `🍽 *Novo Pedido - Bar do Juca* 🍽
 
-	👤 *Cliente:* ${nome}
-	🏠 *Endereço:* ${endereco}, ${numero}${complemento ? ` - ${complemento}` : ""}
-	📍 *Bairro:* ${bairro}
-	🏙 *Cidade:* ${cidade}
+  👤 *Cliente:* ${nome}
+  🏠 *Endereço:* ${endereco}, ${numero}${complemento ? ` - ${complemento}` : ""}
+  📍 *Bairro:* ${bairro}
+  🏙 *Cidade:* ${cidade}
 
-	🛒 *Itens do Pedido:*
-	${resumo}
+  🛒 *Itens do Pedido:*
+  ${resumo}
 
-	🚚 *Taxa de Entrega:* R$ ${taxaEntrega.toFixed(2).replace(".", ",")}
-	💰 *Total com Entrega:* R$ ${totalPedido.toFixed(2).replace(".", ",")}`;
+  🚚 *Taxa de Entrega:* R$ ${taxaEntrega.toFixed(2).replace(".", ",")}
+  💰 *Total com Entrega:* R$ ${totalPedido.toFixed(2).replace(".", ",")}`;
 
   const url = `https://wa.me/5524999787233?text=${encodeURIComponent(mensagem)}`;
-  location.href = url; // abre direto no app no mobile
+  location.href = url;
 };
 
 const btnWhatsapp = document.getElementById("btn-whatsapp");
@@ -606,9 +549,8 @@ btnWhatsapp.addEventListener("click", () => {
 
 const btnMaps = document.getElementById("btn-maps");
 btnMaps.addEventListener("click", () => {
-  window.open("https://www.google.com/maps/place/Bar+do+Juca/@-22.525967,-44.1237132,17z/data=!3m1!4b1!4m6!3m5!1s0x9e9859191bda41:0x4bd92b6436113445!8m2!3d-22.525972!4d-44.1211383!16s%2Fg%2F11bwyg_5rg?entry=ttu&g_ep=EgoyMDI1MDgxMS4wIKXMDSoASAFQAw%3D%3D", "_blank");
+  window.open("https://www.google.com/maps/place/Bar+do+Juca", "_blank");
 });
-
 
 document.getElementById("btn-instagram").addEventListener("click", () => {
   window.open("https://www.instagram.com/bardojucaeucaliptal/", "_blank");
