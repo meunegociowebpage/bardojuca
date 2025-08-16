@@ -189,24 +189,30 @@ function animateAndChangeCategory(direction) {
   }, 300); // mesmo tempo definido no CSS
 }
 
-// 🔹 Detecta swipe na tela para trocar categorias
+// 🔹 Detecta swipe na tela para trocar categorias (MELHORADO)
 let touchStartX = 0;
 let touchEndX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
 
-// 🔹 Detecta swipe apenas na área dos produtos
 productList.addEventListener("touchstart", e => {
   touchStartX = e.changedTouches[0].screenX;
+  touchStartY = e.changedTouches[0].screenY;
 });
 
 productList.addEventListener("touchend", e => {
   touchEndX = e.changedTouches[0].screenX;
+  touchEndY = e.changedTouches[0].screenY;
   handleSwipe();
 });
 
 function handleSwipe() {
-  let diff = touchEndX - touchStartX;
-  if (Math.abs(diff) > 50) { // deslize mínimo de 50px
-    if (diff < 0) {
+  let diffX = touchEndX - touchStartX;
+  let diffY = touchEndY - touchStartY;
+
+  // só troca se deslizar mais na horizontal do que na vertical
+  if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 80) {
+    if (diffX < 0) {
       animateAndChangeCategory(1); // deslizou para esquerda → próxima categoria
     } else {
       animateAndChangeCategory(-1); // deslizou para direita → categoria anterior
@@ -378,12 +384,26 @@ function abrirModalCarrinho() {
 
   carrinho.forEach((item, index) => {
     const li = document.createElement("li");
-    let texto = `${item.nome} - R$ ${item.preco}`;
+    li.classList.add("carrinho-item");
+
+    // monta descrição SEM "(frito ou grelhado)" e usa apenas a opção escolhida
+    let descricao = item.nome.replace("(frito ou grelhado)", "").trim();
     if (item.extras) {
-      if (item.extras.opcao) texto += ` | ${item.extras.opcao}`;
-      if (item.extras.acompanhamentos?.length) texto += ` | ${item.extras.acompanhamentos.join(", ")}`;
-      if (item.extras.escolhaUnica) texto += ` | ${item.extras.escolhaUnica}`;
+      if (item.extras.opcao) {
+        descricao += ` (${item.extras.opcao})`;
+      }
+      if (item.extras.acompanhamentos?.length) {
+        descricao += `: ${item.extras.acompanhamentos.join(", ")}`;
+      }
     }
+
+    li.innerHTML = `
+      <div class="carrinho-info">
+        <div class="carrinho-item-descricao">${descricao}</div>
+        <div class="carrinho-item-preco">R$ ${item.preco}</div>
+      </div>
+    `;
+
     const btnRemover = document.createElement("button");
     btnRemover.textContent = "Remover";
     btnRemover.classList.add("remove-item");
@@ -392,7 +412,7 @@ function abrirModalCarrinho() {
       atualizarBotaoCarrinho();
       abrirModalCarrinho();
     };
-    li.appendChild(document.createTextNode(texto));
+
     li.appendChild(btnRemover);
     lista.appendChild(li);
 
@@ -402,6 +422,7 @@ function abrirModalCarrinho() {
   document.getElementById("total-carrinho").textContent = total.toFixed(2).replace(".", ",");
   document.getElementById("modal-carrinho").style.display = "flex";
 }
+
 
 // Controle dos modais
 const modalCarrinho = document.getElementById("modal-carrinho");
@@ -592,6 +613,3 @@ btnMaps.addEventListener("click", () => {
 document.getElementById("btn-instagram").addEventListener("click", () => {
   window.open("https://www.instagram.com/bardojucaeucaliptal/", "_blank");
 });
-
-
-
