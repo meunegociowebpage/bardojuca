@@ -79,14 +79,11 @@ button,
 /* Barra de categorias */
 .category-bar {
   display: flex;
-  overflow-x: auto;
-  overflow-y: hidden;
-  backdrop-filter: blur(6px); /* efeito embaçado */
-  padding: 8px;
-  gap: 10px;
-  top: 79px;
-  z-index: 999;
-  scrollbar-width: thin; /* barra mais fina no Firefox */
+  flex-wrap: wrap;   /* 🔹 quebra linha se não couber */
+  justify-content: center; /* 🔹 centraliza na tela */
+  gap: 6px;          /* 🔹 menos espaço entre eles */
+  padding: 10px;
+  backdrop-filter: blur(6px);
 }
 
 .category-wrapper {
@@ -111,13 +108,13 @@ button,
 }
 
 .category-btn {
-  flex: 0 0 auto;
+  flex: 1 1 auto; /* 🔹 agora eles podem encolher */
   background-color: rgba(0, 42, 54, 0.7);
   border: 2px solid transparent;
-  padding: 8px 16px;
-  border-radius: 20px;
+  padding: 5px 10px;   /* 🔹 reduz tamanho */
+  border-radius: 12px; /* 🔹 cantos mais suaves */
   color: #f1e7d0;
-  font-size: 15px;
+  font-size: 12px;     /* 🔹 fonte menor */
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -137,13 +134,7 @@ button,
 }
 
 .category-arrows {
-  position: relative; /* 🔹 define referência para o popup */
-  display: flex;
-  justify-content: space-between;
-  align-items: center; /* 🔹 centraliza na altura */
-  margin-top: 5px;
-  padding: 0 15px;
-  z-index: 1001; /* 🔹 garante sobreposição sobre a barra */
+  display: none;
 }
 
 .cat-arrow {
