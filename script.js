@@ -561,13 +561,26 @@ const toggleBtn = document.getElementById("toggle-categories");
 const categoryBarEl = document.getElementById("category-bar");
 
 // Alterna abrir/fechar ao clicar no botão
-toggleBtn.addEventListener("click", () => {
+toggleBtn.addEventListener("click", (e) => {
+  e.stopPropagation(); // evita que o clique no botão feche a barra
   categoryBarEl.classList.toggle("hidden");
 });
 
-// Fecha automaticamente quando escolher uma categoria
+// Fecha automaticamente ao clicar numa categoria
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("category-btn")) {
     categoryBarEl.classList.add("hidden");
   }
 });
+
+// Fecha ao clicar em qualquer lugar abaixo da barra
+document.addEventListener("click", (e) => {
+  if (
+    !categoryBarEl.classList.contains("hidden") && // só se estiver aberta
+    !categoryBarEl.contains(e.target) &&           // clique fora da barra
+    e.target !== toggleBtn                         // e não for o botão
+  ) {
+    categoryBarEl.classList.add("hidden");
+  }
+});
+
