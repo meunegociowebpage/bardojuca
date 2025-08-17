@@ -555,3 +555,19 @@ btnMaps.addEventListener("click", () => {
 document.getElementById("btn-instagram").addEventListener("click", () => {
   window.open("https://www.instagram.com/bardojucaeucaliptal/", "_blank");
 });
+
+// --- Retrátil da barra de categorias ---
+const toggleBtn = document.getElementById("toggle-categories");
+const categoryBarEl = document.getElementById("category-bar");
+
+// Alterna abrir/fechar ao clicar no botão
+toggleBtn.addEventListener("click", () => {
+  categoryBarEl.classList.toggle("hidden");
+});
+
+// Fecha automaticamente quando escolher uma categoria
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("category-btn")) {
+    categoryBarEl.classList.add("hidden");
+  }
+});
