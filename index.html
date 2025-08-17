@@ -27,19 +27,25 @@
 	
   
   <div class="category-wrapper">
-	<nav class="category-bar" id="category-bar"></nav>
-	<div class="category-arrows">
-	  <button class="cat-arrow left">&#10094;</button>
-	  <div id="popup-carrinho">Item adicionado ao carrinho!</div>
-	  <button class="cat-arrow right">&#10095;</button>
-	</div>
+    <div class="category-header">
+      <button id="toggle-categories" class="toggle-btn">CLIQUE AQUI PARA VER CATEGORIAS</button>
+    </div>
+    <nav class="category-bar hidden" id="category-bar"></nav>
+    </div>
   </div>
+
+  <!-- Popup central -->
+  <div id="popup-carrinho">Item adicionado ao carrinho!</div>
 
   <!-- Lista de produtos -->
 <main id="product-list"></main>
 
+
 <!-- Rodapé -->
   <footer class="footer">
+	<div class="carrinho-hint">
+	Clique no carrinho para finalizar seu pedido
+	</div>
     <div class="footer-content">
       <div id="valor-total-footer" class="valor-total-topo">R$ 0,00<br><small>(valor sem a taxa de entrega)</small></div>
       <button id="ver-carrinho" class="btn-carrinho">Carrinho (0)</button>
