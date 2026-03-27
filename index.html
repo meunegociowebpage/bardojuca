@@ -3,15 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bar do Juca - Tradição desde 1976. Pratos feitos na hora, sabor autêntico e ambiente acolhedor.">
   <title>Bar do Juca</title>
 
   <style>
     :root {
-      --verde-escuro: #2f5d62;
-      --verde: #3f7c85;
       --bege: #f2e8cf;
       --dourado: #d4a373;
-      --branco: #ffffff;
       --sombra: rgba(0,0,0,0.25);
     }
 
@@ -24,6 +22,7 @@
 
     body {
       color: var(--bege);
+	  scroll-behavior: smooth;
     }
 
     body::before {
@@ -48,65 +47,46 @@
       background: rgba(0,0,0,0.65);
       z-index: -1;
     }
+	
+	body.no-scroll {
+	  overflow: hidden;
+	}
 
-    header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      height: 80px;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 30px;
-      z-index: 1000;
-      flex-direction: row;
-    }
+	header {
+	  position: fixed;
+	  top: 0;
+	  width: 100%;
+	  height: 80px;
+	  background: linear-gradient(to bottom, #000, rgba(0,0,0,0.7));
+	  display: flex;
+	  align-items: center;
+	  justify-content: space-between;
+	  padding: 0 30px;
+	  z-index: 1000;
+	}
+	
+	.logo {
+	  position: absolute;
+	  left: 50%;
+	  top: 100%; /* base no final do header */
+	  transform: translate(-50%, -50%);
+	}
 
-    .frase-topo {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 18px;
-      color: var(--dourado);
-      font-style: italic;
-      letter-spacing: 1px;
-      font-family: 'Georgia', serif;
-      opacity: 0.9;
-      white-space: nowrap;
-    }
-
-    /* AJUSTE MOBILE */
-    @media (max-width: 768px) {
-      .frase-topo { display: none; }
-    }
-
-    .logo img {
-      height: 60px;
-    }
-
-    .icons {
-      display: flex;
-      gap: 20px;
-    }
-
-    .icons a img {
-      height: 28px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .icons a img:hover {
-      transform: scale(1.15);
-    }
+	.logo img {
+	  height: 90px;
+	  border-radius: 50%;
+	  display: block;
+	  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+	}
 
     main {
-      margin-top: 70px;
-      padding: 40px 20px;
-      max-width: 1100px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+	  margin-top: 120px; 
+	  padding: 40px 20px;
+	  max-width: 1100px;
+	  margin-left: auto;
+	  margin-right: auto;
+	  text-align: center;
+	}
 
     section {
       margin-bottom: 30px;
@@ -121,23 +101,25 @@
       transform: scale(1.01);
     }
 
+	p, ul {
+	  text-align: center;
+	}
+
     h2 {
       margin-bottom: 25px;
       color: var(--dourado);
       font-size: 28px;
       letter-spacing: 1px;
       position: relative;
+	  text-align: center;
     }
 
 	.descricao {
 	  list-style-type: disc; /* bolinha */
 	  padding-left: 20px;
 	  line-height: 1.8;
-	}
-
-	.sub {
-	  list-style: none; /* remove bolinha da segunda linha do sábado */
-	  margin-left: 62px;
+	  text-align: left;
+	  display: inline-block;
 	}
 
     .galeria {
@@ -159,8 +141,9 @@
     }
 
     .cardapio-link {
-      display: flex;
-    }
+	  display: flex;
+	  justify-content: center; /* ADICIONE */
+	}
 
     .cardapio-link a {
       text-decoration: none;
@@ -179,8 +162,9 @@
     }
 
     .texto-cardapio {
-      margin-top: 10px;
-    }
+	  margin-top: 10px;
+	  text-align: center;
+	}
 
     /* MAPA */
     .mapa iframe {
@@ -239,26 +223,45 @@
     .lightbox .prev { left: 20px; }
     .lightbox .next { right: 20px; }
 
-    .lightbox .prev { left: 20px; }
-    .lightbox .next { right: 20px; }
-
-    .lightbox .nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 40px;
-      color: white;
-      cursor: pointer;
-      padding: 10px;
-      user-select: none;
-    }
-
-    .lightbox .prev { left: 20px; }
-    .lightbox .next { right: 20px; }
-
     .lightbox.active {
       display: flex;
     }
+
+
+	.float-buttons {
+	  position: fixed;
+	  bottom: 20px;
+	  right: 20px;
+	  display: flex;
+	  flex-direction: column;
+	  gap: 10px; /* espaço entre os botões */
+	  z-index: 3000;
+	}
+
+	.float-buttons a img {
+	  width: 50px;
+	  height: 50px;
+	  transition: 0.3s;
+	}
+
+	.float-buttons a img:hover {
+	  transform: scale(1.1);
+	}
+	
+	.fechar {
+	  position: absolute;
+	  top: 20px;
+	  right: 25px;
+	  font-size: 35px;
+	  color: white;
+	  cursor: pointer;
+	  z-index: 2100;
+	  transition: 0.3s;
+	}
+
+	.fechar:hover {
+	  transform: scale(1.2);
+	}
 
   </style>
 </head>
@@ -268,22 +271,7 @@
     <div class="logo">
       <img src="logo.png" alt="Bar do Juca">
     </div>
-
-    <div class="icons">
-      <a href="https://www.instagram.com/bardojucaeucaliptal" target="_blank">
-        <img src="instagram.png" alt="Instagram">
-      </a>
-
-      <a href="https://wa.me/5524999787233" target="_blank">
-        <img src="whatsapp.png" alt="WhatsApp">
-      </a>
-
-      <a href="#mapa">
-        <img src="maps.png" alt="Localização">
-      </a>
-    </div>
-      <div class="frase-topo">Tradição e sabor desde 1976</div>
-  </header>
+ </header>
 
   <main>
 
@@ -296,12 +284,12 @@
     </section>
 
 	<section>
-      <h2>Galeria</h2>
+      <h2>Nossos Pratos</h2>
       <div class="galeria">
-        <img src="foto1.jfif" onclick="abrirImagem(this)">
-        <img src="foto2.jfif" onclick="abrirImagem(this)">
-        <img src="foto3.jfif" onclick="abrirImagem(this)">
-        <img src="foto4.jfif" onclick="abrirImagem(this)">
+        <img src="foto1.jfif">
+        <img src="foto2.jfif">
+        <img src="foto3.jfif">
+        <img src="foto4.jfif">
       </div>
     </section>
 
@@ -311,8 +299,7 @@
 			  <li>Quarta-feira: 18:00 às 23:00</li>
 			  <li>Quinta-feira: 18:00 às 23:00</li>
 			  <li>Sexta-feira: 18:00 às 23:00</li>
-			  <li>Sábado: 11:00 às 15:30</li>
-			  <li class="sub">18:00 às 23:00</li>
+			  <li>Sábado: 11:00 às 15:30 e 18:00 às 23:00</li>
 			  <li>Domingo: 11:00 às 15:30</li>
 			</ul>
     </section>
@@ -337,12 +324,13 @@
   </main>
 
   <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox">
-    <span class="nav prev" onclick="event.stopPropagation(); trocarImagem(-1)">&#10094;</span>
-    <img id="imagem-ampliada">
-    <span class="nav next" onclick="event.stopPropagation(); trocarImagem(1)">&#10095;</span>
-    <div class="contador" id="contador"></div>
-  </div>
+	<div class="lightbox" id="lightbox">
+	  <span class="fechar" onclick="fecharImagem()">✕</span>
+	  <span class="nav prev" onclick="event.stopPropagation(); trocarImagem(-1)">&#10094;</span>
+	  <img id="imagem-ampliada">
+	  <span class="nav next" onclick="event.stopPropagation(); trocarImagem(1)">&#10095;</span>
+	  <div class="contador" id="contador"></div>
+	</div>
 
   <script>
     let imagens = [];
@@ -358,19 +346,23 @@
       document.getElementById('contador').innerText = `${indexAtual + 1}/${imagens.length}`;
     }
 
-    function abrirImagem(index) {
-      indexAtual = index;
-      const img = document.getElementById('imagem-ampliada');
-      img.src = imagens[indexAtual];
-      zoom = 1;
-      img.style.transform = `scale(${zoom})`;
-      document.getElementById('lightbox').classList.add('active');
-      atualizarContador();
-    }
+	function abrirImagem(index) {
+	  indexAtual = index;
+	  const img = document.getElementById('imagem-ampliada');
+	  img.src = imagens[indexAtual];
+	  zoom = 1;
+	  img.style.transform = `scale(${zoom})`;
 
-    function fecharImagem() {
-      document.getElementById('lightbox').classList.remove('active');
-    }
+	  document.getElementById('lightbox').classList.add('active');
+	  document.body.classList.add('no-scroll'); // 👈 trava scroll
+
+	  atualizarContador();
+	}
+
+	function fecharImagem() {
+	  document.getElementById('lightbox').classList.remove('active');
+	  document.body.classList.remove('no-scroll'); // 👈 libera scroll
+	}
 
     function trocarImagem(direcao) {
       const img = document.getElementById('imagem-ampliada');
@@ -417,6 +409,20 @@
       img.style.transform = `scale(${zoom})`;
     });
   </script>
+
+	<div class="float-buttons">
+
+	  <!-- Instagram (fica em cima) -->
+	  <a href="https://www.instagram.com/bardojucaeucaliptal" target="_blank">
+		<img src="instagram.png" alt="Instagram">
+	  </a>
+
+	  <!-- WhatsApp (fica embaixo) -->
+	  <a href="https://wa.me/5524999787233" target="_blank">
+		<img src="whatsapp.png" alt="WhatsApp">
+	  </a>
+
+	</div>
 
 </body>
 </html>
